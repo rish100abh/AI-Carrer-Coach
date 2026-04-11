@@ -1,78 +1,166 @@
-// const { Button } = require("./ui/button")
+// // const { Button } = require("./ui/button")
+// "use client";
+
+// import Link from "next/link";
+// import Image from "next/image";
+// import { Button } from "./ui/button";
+// import { useEffect, useRef } from "react";
+
+// const HeroSection =()=>{
+//     const imageRef = useRef(null);
+
+//     useEffect(() => {
+//        const imageElement = imageRef.current;
+
+//       const handleScroll = () => {
+//         const scrollPosition = window.scrollY;
+//         const scrollThreshold = 100;
+
+//         if(scrollPosition > scrollThreshold)
+//         {
+//            imageElement.classList.add("scrolled");
+//         }
+//         else {
+//             imageElement.classList.remove("scrolled");
+//         }
+//      };
+
+//      window.addEventListener("scroll",handleScroll);
+//      return () => window.removeEventListener("scroll",handleScroll);
+       
+//     },[]);
+//     return (
+//         <section className="w-full pt-36 md:pt-48 pb-10">
+//             <div className="space-y-6 text-center">
+//                 <div className="space-y-6 mx-auto">
+//                     <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl xl:text">
+//                         Your AI Career Coach for 
+//                         <br/>
+//                         Professional Success
+//                     </h1>
+//                     <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl" >
+//                         Advance your career with personalized guidance, interview prep, and 
+//                         AI-powered tools for job success.
+//                     </p>
+//                 </div>
+
+//                 <div className="flex justify-center space-x-4">
+//                    <Link href="/dashboard">
+//                    <Button size="lg" className="px-8">
+//                     Get Started
+//                    </Button>
+//                    </Link>
+//                    <Link href="https://www.youtube.com">
+//                    <Button size="lg" className="px-8" variant="outline">
+//                     Get Started
+//                    </Button>
+//                    </Link>
+//                 </div>
+
+//                 <div className="hero-image-wrapper mt-5 md:mt-0">
+//                     <div ref={imageRef} className="hero-image">
+//                         <Image 
+//                         src={"/banner.png"} 
+//                         width={1280}
+//                         height={720}
+//                         alt="Banner Sensai"
+//                         className="rounded-lg shadow-2x1 border mx-auto"
+//                         priority
+//                         />
+
+//                     </div>
+//                 </div>
+//             </div>
+//         </section>
+//     )
+// }
+
+// export default HeroSection;
+
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { useEffect, useRef } from "react";
+import { ArrowRight } from "lucide-react";
 
-const HeroSection =()=>{
-    const imageRef = useRef(null);
+const HeroSection = ({ onGetStarted, loading = false }) => {
+  const imageRef = useRef(null);
 
-    useEffect(() => {
-       const imageElement = imageRef.current;
+  useEffect(() => {
+    const imageElement = imageRef.current;
+    if (!imageElement) return;
 
-      const handleScroll = () => {
-        const scrollPosition = window.scrollY;
-        const scrollThreshold = 100;
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const scrollThreshold = 100;
 
-        if(scrollPosition > scrollThreshold)
-        {
-           imageElement.classList.add("scrolled");
-        }
-        else {
-            imageElement.classList.remove("scrolled");
-        }
-     };
+      if (scrollPosition > scrollThreshold) {
+        imageElement.classList.add("scrolled");
+      } else {
+        imageElement.classList.remove("scrolled");
+      }
+    };
 
-     window.addEventListener("scroll",handleScroll);
-     return () => window.removeEventListener("scroll",handleScroll);
-       
-    },[]);
-    return (
-        <section className="w-full pt-36 md:pt-48 pb-10">
-            <div className="space-y-6 text-center">
-                <div className="space-y-6 mx-auto">
-                    <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl xl:text">
-                        Your AI Career Coach for 
-                        <br/>
-                        Professional Success
-                    </h1>
-                    <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl" >
-                        Advance your career with personalized guidance, interview prep, and 
-                        AI-powered tools for job success.
-                    </p>
-                </div>
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
 
-                <div className="flex justify-center space-x-4">
-                   <Link href="/dashboard">
-                   <Button size="lg" className="px-8">
-                    Get Started
-                   </Button>
-                   </Link>
-                   <Link href="https://www.youtube.com">
-                   <Button size="lg" className="px-8" variant="outline">
-                    Get Started
-                   </Button>
-                   </Link>
-                </div>
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-                <div className="hero-image-wrapper mt-5 md:mt-0">
-                    <div ref={imageRef} className="hero-image">
-                        <Image 
-                        src={"/banner.png"} 
-                        width={1280}
-                        height={720}
-                        alt="Banner Sensai"
-                        className="rounded-lg shadow-2x1 border mx-auto"
-                        priority
-                        />
+  return (
+    <section className="w-full pt-36 md:pt-48 pb-10">
+      <div className="space-y-6 text-center">
+        <div className="space-y-6 mx-auto max-w-4xl">
+          <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl">
+            Your AI Career Coach for
+            <br />
+            Professional Success
+          </h1>
 
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
+          <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl">
+            Advance your career with personalized guidance, interview prep, and
+            AI-powered tools for job success.
+          </p>
+        </div>
+
+        <div className="flex justify-center gap-4 flex-col sm:flex-row">
+          <Button
+            size="lg"
+            className="px-8"
+            onClick={onGetStarted}
+            disabled={loading}
+          >
+            Get Started
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+
+          <Button
+            size="lg"
+            className="px-8"
+            variant="outline"
+            onClick={onGetStarted}
+            disabled={loading}
+          >
+            Start Free
+          </Button>
+        </div>
+
+        <div className="hero-image-wrapper mt-5 md:mt-0">
+          <div ref={imageRef} className="hero-image">
+            <Image
+              src="/banner.png"
+              width={1280}
+              height={720}
+              alt="Banner Sensai"
+              className="rounded-lg shadow-2xl border mx-auto"
+              priority
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default HeroSection;
